@@ -15,6 +15,16 @@ services:
     restart: always
     networks:
       - default
+# phpmyadmin:
+#   image: bitnami/phpmyadmin:5.2.0-debian-11-r43
+#   ports:
+#     - 8080:8080
+#     - 8443:8443
+#   environment:
+#       DATABASE_HOST: mysql
+#   restart: always
+#   networks:
+#     - default
 networks:
   default:
     driver: bridge
