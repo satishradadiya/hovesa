@@ -1,0 +1,6 @@
+
+data
+    db
+    nginx
+        certs
+    redis
