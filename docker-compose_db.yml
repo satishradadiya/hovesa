@@ -6,7 +6,7 @@ services:
       driver: none
     command: ["--max-allowed-packet=512M"]
     volumes:
-      - "/container/data/db:/var/lib/mysql:delegated"
+      - "/container/hovesa/data/db:/var/lib/mysql:delegated"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}

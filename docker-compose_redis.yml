@@ -6,7 +6,7 @@ services:
       driver: none
     # command: redis-server --requirepass 8b405f60665e48f795752e534d93b722
     volumes:
-      - /container/data/redis:/var/lib/redis
+      - /container/hovesa/data/redis:/var/lib/redis
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
