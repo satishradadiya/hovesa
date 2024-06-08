@@ -1,5 +1,35 @@
 version: '3'
 services:
+  mysql:
+    image: mariadb:10.5.9
+    container_name: db
+    logging:
+      driver: none
+    command: ["--max-allowed-packet=512M"]
+    volumes:
+      - "/container/hovesa/data/db:/var/lib/mysql:delegated"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: always
+    networks:
+      - default
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    logging:
+      driver: none
+    # command: redis-server --requirepass 8b405f60665e48f795752e534d93b722
+    volumes:
+      - /container/hovesa/data/redis:/var/lib/redis
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    restart: always
+    networks:
+      - default
   litespeed:
     image: litespeedtech/openlitespeed:${OLS_VERSION}-${PHP_VERSION}
     container_name: litespeed
