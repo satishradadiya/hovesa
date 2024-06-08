@@ -7,7 +7,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /data/nginx/certs:/etc/nginx/certs
+      - /container/data/nginx/certs:/etc/nginx/certs
     restart: always
     networks:
       - default
