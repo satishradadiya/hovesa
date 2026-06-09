@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hovesa
+  labels:
+    app.kubernetes.io/name: hovesa
+    app.kubernetes.io/part-of: hovesa
