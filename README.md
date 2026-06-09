@@ -175,6 +175,61 @@ bash bin/webadmin.sh [-M, --mod-secure] disable
 ### Accessing the Database
 After installation, you can use phpMyAdmin to access the database by visiting `http://127.0.0.1:8080` or `https://127.0.0.1:8443`. The default username is `root`, and the password is the same as the one you supplied in the `.env` file.
 
+## Playwright Integration
+You can use Playwright to run end-to-end tests against the WordPress site running in this Docker Compose setup.
+
+### 1. Start the stack
+Bring up the services first:
+```
+docker compose up -d
+```
+Wait until OpenLiteSpeed, WordPress, and the database are ready.
+
+### 2. Install Playwright in your test project
+In a separate Node.js project or test workspace, install Playwright:
+```
+npm init -y
+npm install -D @playwright/test
+npx playwright install
+```
+
+### 3. Point tests at the local site
+Use the site URL exposed by Docker Compose, typically:
+- `http://localhost`
+- or your custom domain configured in `.env`
+
+Example `playwright.config.ts`:
+```
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  use: {
+    baseURL: 'http://localhost',
+    trace: 'on-first-retry',
+  },
+  webServer: undefined,
+});
+```
+
+### 4. Example test
+Create a test such as `tests/home.spec.ts`:
+```
+import { test, expect } from '@playwright/test';
+
+test('homepage loads', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveTitle(/WordPress|OpenLiteSpeed/i);
+});
+```
+
+Run the test suite with:
+```
+npx playwright test
+```
+
+### 5. Optional: run Playwright in a container
+If you prefer to keep testing inside Docker, you can run Playwright in a separate container or CI job and target the Compose services over the Docker network.
+
 ## Customization
 If you want to customize the image by adding some packages, e.g. `lsphp80-pspell`, just extend it with a Dockerfile. 
 1. We can create a `custom` folder and a `custom/Dockerfile` file under the main project. 
